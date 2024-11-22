@@ -8,11 +8,16 @@
 
 	String url = "/qrcode?url=" + URLEncoder.encode("https://www.google.com/search?newwindow=1&sca_esv=73cfaf4f66504ccb&sxsrf=ADLYWIKy24iJti2jQt3oMU5YwfH1zL-NrA:1732089047902&q=java+qr%EC%BD%94%EB%93%9C+%EC%8A%A4%EC%BA%94&sa=X&ved=2ahUKEwjXrK3DtuqJAxW73TQHHUj7C_wQ1QJ6BAg3EAE&biw=2441&bih=1215&dpr=2", "UTF-8") + "&w=400&h=400";
 	model.addAttribute("url", url);
+
+ 	String newQRCode = QRCodeGenerator.generateQRCodeBase64("https://github.com/yeseung", 100, 100);
+	model.addAttribute("newQRCode", newQRCode);
       
 ---
 
-	<img src="/qrcode?url=https://github.com/yeseung"><br>
-	<img th:src="${url}">
+ 	<img src="/qrcode?url=https://github.com/yeseung"><br>
+	<img th:src="${url}"><br>
+	<img th:src="'data:image/png;base64,' + ${newQRCode}">
+ 
 
 ---
 

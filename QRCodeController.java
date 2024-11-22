@@ -15,6 +15,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/qrcode")
 public class QRCodeController {
+        
         @GetMapping("")
         public ResponseEntity<byte[]> create(@RequestParam String url,
                                @RequestParam(value = "w", required = false, defaultValue = "200") int width,
@@ -29,5 +30,26 @@ public class QRCodeController {
                         .body(out.toByteArray());
             }
         }
+
+
+    @PostMapping("/scan")
+    public String scanQRCode(@RequestParam("file") MultipartFile file) {
+        try {
+            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+            if (bufferedImage == null) {
+                return "Invalid image file.";
+            }
+            
+            LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            Result result = new MultiFormatReader().decode(bitmap);
+            
+            return result.getText();
+        } catch (NotFoundException e) {
+            return "QR code not found in the image.";
+        } catch (IOException e) {
+            return "Error processing the file.";
+        }
+    }
 
 }

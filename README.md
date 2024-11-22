@@ -17,6 +17,12 @@
  	<img src="/qrcode?url=https://github.com/yeseung"><br>
 	<img th:src="${url}"><br>
 	<img th:src="'data:image/png;base64,' + ${newQRCode}">
+
+
+ 	<form action="/qrcode/scan" method="post" enctype="multipart/form-data">
+	  <input type="file" name="file" accept="image/*" required />
+	  <button type="submit">Scan QR Code</button>
+	</form>
  
 
 ---
